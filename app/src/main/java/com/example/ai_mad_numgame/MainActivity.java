@@ -72,13 +72,63 @@ public class MainActivity extends AppCompatActivity {
     public void newMatch() {  //A game is composed of three matches
 
         int operand1 = random.nextInt(10);
-        int operand2=0;
+        int operand2=random.nextInt(10);
+        int correctanswer=-100;
+        correctButton=random.nextInt(4);
+        while (operand2==0){
+            operand2=random.nextInt(10);
+        }
         //check is operand2 is not zero; otherwise in case of division-divide by zero error will come
         String operator = operators[random.nextInt(4)];
         textView2.setText(operand1 + operator + operand2);
 
       // Your code here, to diplay correct and incorrect options on the buttons
 
+if (operator.equals("+"))
+{
+    correctanswer=operand1+operand2;
+}
+else if (operator.equals("-"))
+{
+    correctanswer=operand1-operand2;
+}
+else if(operator.equals("/"))
+{
+    correctanswer=operand1/operand2;
+}
+else if(operator.equals("*"))
+{
+    correctanswer=operand1*operand2;
+}
+if(correctButton==0)
+{
+    button1.setText(correctanswer+ " ");//" " used to convert in to string as we cannit put int on button
+    button2.setText(correctanswer+1+" ");
+    button3.setText(correctanswer-1+" ");
+    button4.setText(correctanswer+2+" ");
+
+}
+else if (correctButton==1)
+{
+    button1.setText(correctanswer+1+ " ");//" " used to convert in to string as we cannit put int on button
+    button2.setText(correctanswer+" ");
+    button3.setText(correctanswer-1+" ");
+    button4.setText(correctanswer+2+" ");
+}
+else if(correctButton==2)
+{
+    button1.setText(correctanswer-1+ " ");//" " used to convert in to string as we cannit put int on button
+    button2.setText(correctanswer+1+" ");
+    button3.setText(correctanswer+" ");
+    button4.setText(correctanswer+2+" ");
+}
+else if(correctButton==3)
+{
+    button1.setText(correctanswer-1+" ");//" " used to convert in to string as we cannit put int on button
+    button2.setText(correctanswer+1+" ");
+    button3.setText(correctanswer+2+" ");
+    button4.setText(correctanswer+" ");
+}
         if(matchCounter==3){    // if three matches are completed updatee the perfomrance in sharedpreferences
 
             matchCounter=0;
@@ -96,6 +146,10 @@ public class MainActivity extends AppCompatActivity {
         //Computing the sum of score array, which has the 1 or in each index,depending on correct or incorrect answers
         int sum=0;
        // your code here
+        for(int i=0;i<score.length;i++)
+        {
+            sum=sum+score[i];
+        }
         return sum;
     }
 
@@ -113,8 +167,31 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public String getInterpretation(int [][]dataFrame,double slope){
+        String Interpretation=" all is well ";//DEFAULT INTERPRETATION
+        if (slope>0 && slope<=0.5)
+        {
+            Interpretation="You are a Slow learner";
+        }
+        else if(slope>0.5)
+        {
+            Interpretation="You are a good learner";
+        }
+        else if( slope<0)
+
+        {
+            Interpretation="You are a unlearner";
+        }
+        else if(dataFrame[0][1]==3 && slope==0)
+        {
+            Interpretation="you achieved perfection";
+        }
+        else if(dataFrame[0][1]==0 && slope ==0)
+        {
+            Interpretation="You donot learn";
+
+        }
        //provide interpretation based on your slope analysis
         // Your code here
-        return "Your Interpretation";
+        return  Interpretation;
     }
 }
